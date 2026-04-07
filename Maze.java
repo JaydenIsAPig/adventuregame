@@ -19,8 +19,8 @@ public class Maze {
         return path;
     }
     public void appendPath(Room r) {
-        rooms.remove(r.name);
         path.add(r);
+        rooms.remove(r.name);
     }
 
     public Room createPuzzleRoom(int location) {
@@ -68,9 +68,11 @@ public class Maze {
         else { newRoom = createKillRoom(location); }
 
         appendPath(newRoom);
-        rooms.remove(newRoom.name);
         
         return newRoom;
+    }
+    public void nextRoom() {
+        
     }
 
     public boolean roomExist(int index) {

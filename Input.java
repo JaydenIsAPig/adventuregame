@@ -34,7 +34,7 @@ public class Input {
         if (input.equals("right") || input.equals("left")) {
             return 1;
         }
-        else if (input.equals("backward")) {
+        else if (input.equals("back")) {
             return -1;
         }
         return 0;

@@ -12,6 +12,18 @@ public class Player {
 
         
     }
+    public Room goToRoom(int amnt, Maze m) {
+        position += amnt;
+
+        if (!(m.roomExist(position))) {
+            Room r = m.createRandomRoom(position);
+            return r;
+        }
+        return m.path.get(position);
+    }
+    public Room getRoom() {
+        return m.path.get(position);
+    }
 
     public int getLocation() {
         return position;
