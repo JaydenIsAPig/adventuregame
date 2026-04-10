@@ -36,28 +36,32 @@ public class GameRunner {
 
         // Intro just checks for the first direction
         while (firstDirection == 0|| firstDirection == -1) {
-            String newDir = correctInput(p, "[ Left  Right ]");
+            String newDir = correctInput(p, "[ Left  Right ]", i);
             firstDirection = i.transformDirection(newDir);
         }
         // p = 1
         // p.goTo(firstDirection, m);
         // runLoop(m, p, i);
         gameLoop(p, m, firstDirection, i);
+        endGame(m, p, i);
 
     }
+
     private static void gameLoop(Player p, Maze m, int direction, Input i) {
         String validIn = "[Left, Right, Back]";
         while (gameActive) {
             Room room = p.goToRoom(direction, m);
             p.sendMsg("You enter into " + room.name + "");
-            if (roomCount == m.getPath().size()) {
-                p.sendMsg("End");
+
+            sendDebug(m, p, direction);
+            // Checks if you have any rooms left from the list, if not then break out the game loop
+            if (roomCount == (m.getPath().size() + 1)) {
                 break;
             }
             String input = i.getTrueStr("Where will you go next?  ");
             direction = i.transformDirection(input);
             while (direction == 0) {
-                direction = i.transformDirection(correctInput(p, validIn));
+                direction = i.transformDirection(correctInput(p, validIn, i));
             }
         }
     }
@@ -67,75 +71,42 @@ public class GameRunner {
 
 
 
-    private static String correctInput(Player p, String validIn) {
+    private static String correctInput(Player p, String validIn, Input s) {
         p.sendMsg("Invalid input!");
         return s.getTrueStr("Valid inputs include: " + validIn);
     }
 
-    private static void runLoop(Maze m, Player p, Input i) {
-        // if there are 5 rooms, the loop should end when path has 4 rooms
-
-        int roomCount = rooms.size();
-        System.out.println("Room count is " + roomCount);
-
-        // Room at 1
-        Room room = m.createRandomRoom(p.getLocation());
-
-        while (gameActive) {
-            // Players new location will be their current location +/- 1 depending on tehir input
-            p.sendMsg("You enter into " + room.name + "");
-            p.sendMsg("Where will you go next?");
-            String input = i.getTrueStr();
-            int increment = i.transformDirection(input);
-            p.goTo(increment, m);
-            room = m.createRandomRoom(p.getLocation());
-            // 
-            // Path is 5 rooms
-            // Rooms is 3 long
-
-            int pathCount = m.getPath().size();
-
-            p.sendMsg(roomCount + " : " + pathCount);
-
-            if ((pathCount - roomCount == roomCount)) {
-                p.sendMsg("Now");
-                gameActive = false;
+    private static void endGame(Maze m, Player p, Input i) {
+            p.sendMsg("but it is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew");
+            p.sendMsg("Do you open the lever and escape, or become part of the labrynth, forver.");
+            p.sendMsg("Choose the Blue Pill: Freedom from the labrynth - faith in mandkind");
+            p.sendMsg("Choose the Red Pill: Freedom from mankind - faith in the labrynth");
+            String answer = i.getTrueStr("Which pill do you take, blue or red?");
+            String validIn = "[Blue, Red]";
+            while (!answer.equals("blue") && !answer.equals("red")) {
+                String newAnswer = correctInput(p, validIn, i);
+                answer = newAnswer;
             }
-
-            
-            
-
-            
-            
-        }
-        // if (rooms.isEmpty()) {
-        //     p.sendMsg("You enter the last room that is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew");
-        //     p.sendMsg("Do you open the lever and escape, or become part of the labrynth, forver.");
-        //     p.sendMsg("Choose the Blue Pill: Freedom from the labrynth - faith in mandkind");
-        //     p.sendMsg("Choose the Red Pill: Freedom from mankind - faith in the labrynth");
-        //     String answer = i.getTrueStr("Which pill do you take, blue or red?");
-        //     validIn = "[Blue, Red]";
-        //     while (!answer.equals("blue") && !answer.equals("red")) {
-        //         String newAnswer = correctInput(p, validIn, i);
-        //         answer = newAnswer;
-        //     }
-        //     p.sendMsg("Very well, I hope you are happy with your decision");
-
-            
-        // }
+            p.sendMsg("Very well, I hope you are happy with your decision");
     }
-    public static void sendDebug(Maze m) {
+    public static void sendDebug(Maze m, Player p, int offSet) {
+        System.out.println("");
         System.out.print("Rooms List: ");
         for (String s: rooms) {
             System.out.print(s + ",");
         }
-        System.out.println(" L = " + rooms.size());
+        System.out.println(" L = " + roomCount);
 
         System.out.print("Path List: ");
         for (Room r: m.getPath()) {
             System.out.print(r.name + ",");
         }
         System.out.println(" L = " + m.getPath().size());
+        int offSize = (m.getPath().size() + offSet);
+        System.out.println(offSize + " : " + roomCount);
+
+        System.out.println("Player position: " + p.getLocation());
+        System.out.println("Player Room:" + p.getRoom().name + " Path[" + (p.getLocation() -1)+"]");
         System.out.println("");
     }
 }

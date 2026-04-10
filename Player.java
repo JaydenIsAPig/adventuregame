@@ -14,15 +14,14 @@ public class Player {
     }
     public Room goToRoom(int amnt, Maze m) {
         position += amnt;
-
-        if (!(m.roomExist(position))) {
-            Room r = m.createRandomRoom(position);
-            return r;
+        int futurePos = position - 1;
+        if (m.roomExist(futurePos)) {
+            return m.path.get(futurePos);
         }
-        return m.path.get(position);
+        return m.createRandomRoom(futurePos);
     }
     public Room getRoom() {
-        return m.path.get(position);
+        return m.path.get(position - 1);
     }
 
     public int getLocation() {

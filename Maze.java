@@ -76,11 +76,11 @@ public class Maze {
     }
 
     public boolean roomExist(int index) {
-        if (path.get(index) != null) {
+        if (0 <= index && index <= (path.size() - 1)) {
             return true;
-        }
-        else return false;
     }
+    return false;
+}
 
 
     
