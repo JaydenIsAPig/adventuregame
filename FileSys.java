@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,20 +33,25 @@ public class FileSys {
              // colin - i think this is why it keeps listing random numbers, see following code comment
             i++;
         }
-        return allRooms;
+        return shuffleList(allRooms);
         
     }
     public List<String> getDescriptions() {
         int i = 0;
         List<String> allDescriptions = new ArrayList<String>();
          //colin - set length like this might lead to problems if you have more than 5 rooms, since the following code block will keep appending until no more room files left, even if it overflows
-         while (roomScan.hasNextLine()) {
-            String s = roomScan.nextLine();
+         while (descScan.hasNextLine()) {
+            String s = descScan.nextLine();
             allDescriptions.add(i, s);
              // colin - i think this is why it keeps listing random numbers, see following code comment
             i++;
         }
-        return allDescriptions;
+        return shuffleList(allDescriptions);
         
+    }
+    public static List<String> shuffleList(List<String> list) {
+        List<String> array = list;
+        Collections.shuffle(array);
+        return array;
     }
 }

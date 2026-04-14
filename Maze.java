@@ -25,24 +25,24 @@ public class Maze {
 
     public Room createPuzzleRoom(int location) {
         // create the room
-        Room r = new PuzzleRoom(rooms.get(location), location);
+        Room r = new PuzzleRoom(rooms.get(location), location, descs.get(location-1));
         return r;
     }
     public Room createCombatRoom(int location) {
         // create the room
-        Room r = new CombatRoom(rooms.get(location), location);
+        Room r = new CombatRoom(rooms.get(location), location, descs.get(location-1));
 
         return r;
     }
     public Room createKillRoom(int location) {
         // create the room
-        Room r = new KillRoom(rooms.get(location), location);
+        Room r = new KillRoom(rooms.get(location), location, descs.get(location-1));
 
         return r;
     }
     public Room createSceneRoom(int location) {
         // create the room
-        Room r = new SceneRoom(rooms.get(location), location);
+        Room r = new SceneRoom(rooms.get(location), location, descs.get(location-1));
 
         return r;
     }

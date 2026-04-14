@@ -1,5 +1,8 @@
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameRunner {
@@ -14,6 +17,7 @@ public class GameRunner {
         FileSys files = new FileSys(roomFile, descFile);
         rooms = files.getRooms();
         descs = files.getDescriptions();
+        
         // Get my files
         Maze m = new Maze(rooms, descs);
         Player p = new Player(m);
@@ -52,16 +56,21 @@ public class GameRunner {
         while (gameActive) {
             Room room = p.goToRoom(direction, m);
             p.sendMsg("You enter into " + room.name + "");
-
-            sendDebug(m, p, direction);
+            p.sendMsg("You see " + room.getDescription());
+            // sendDebug(m, p, direction);
             // Checks if you have any rooms left from the list, if not then break out the game loop
             if (roomCount == (m.getPath().size() + 1)) {
                 break;
             }
             String input = i.getTrueStr("Where will you go next?  ");
             direction = i.transformDirection(input);
-            while (direction == 0) {
-                direction = i.transformDirection(correctInput(p, validIn, i));
+            while (direction < 1) {
+                if (direction == 0) {
+                    direction = i.transformDirection(correctInput(p, validIn, i));
+                }
+                else if (direction == -1 && p.getLocation() <= 1) {
+                    direction = i.transformDirection("You can't go back any further.");
+                }
             }
         }
     }
@@ -95,7 +104,11 @@ public class GameRunner {
         for (String s: rooms) {
             System.out.print(s + ",");
         }
-        System.out.println(" L = " + roomCount);
+        System.out.print("Descriptions List: ");
+        for (String s: descs) {
+            System.out.print(s + ",");
+        }
+        System.out.println(" L = " + descs.size());
 
         System.out.print("Path List: ");
         for (Room r: m.getPath()) {
@@ -109,4 +122,5 @@ public class GameRunner {
         System.out.println("Player Room:" + p.getRoom().name + " Path[" + (p.getLocation() -1)+"]");
         System.out.println("");
     }
+    
 }
