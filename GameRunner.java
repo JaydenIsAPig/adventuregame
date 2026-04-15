@@ -73,7 +73,7 @@ public class GameRunner {
                 if (direction == 0) {
                     direction = i.transformDirection(correctInput(p, validIn, i));
                 }
-                else if (direction == -1 && p.getLocation() <= 1) {
+                else if (direction == -1 && p.getLocation() <= 0) {
                     direction = i.transformDirection("You can't go back any further.");
                 }
             }
@@ -116,22 +116,23 @@ public class GameRunner {
             System.out.print(s + ",");
         }
         System.out.println(" L = " + rooms.size());
+        System.out.println("");
         System.out.print("Descriptions List: ");
         for (String s: descs) {
             System.out.print(s + ",");
         }
         System.out.println(" L = " + descs.size());
-        
+        System.out.println("");
         System.out.print("Path List: ");
         for (Room r: m.getPath()) {
             System.out.print(r.name + ",");
         }
         System.out.println(" L = " + m.getPath().size());
         int offSize = (m.getPath().size() + offSet);
-        System.out.println(offSize + " : " + roomCount);
+        System.out.println("Path: "+offSize + " Room: " + roomCount + " Desc: " + descs.size());
 
-        System.out.println("Player position: " + p.getLocation());
-        System.out.println("Player Room:" + p.getRoom().name + " Path[" + (p.getLocation() -1)+"]");
+
+        System.out.println("Player Room:" + p.getRoom().name + " Path[pos@" + (p.getLocation())+"]");
         System.out.println("");
     }
     

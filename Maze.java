@@ -48,28 +48,34 @@ public class Maze {
     }
 
 
-    public Room createRandomRoom(int location) {
+    public Room createRandomRoom(int location) throws IndexOutOfBoundsException{
         Room newRoom;
         Double random = Math.floor(Math.random()*16) + 1;
         // generates a number 1-16
 
         // 5/16 chance that its combat, puzzle, or scene room
         // 1/16 chance that it is a kill room where the player must react quick to save their life
+        try {
+            if (5 <= random) {
+                newRoom = createCombatRoom(location);
+            }
+            else if (10 <= random) {
+                newRoom = createPuzzleRoom(location);
+            }
+            else if (15 <= random) {
+                newRoom = createSceneRoom(location);
+            }
+            else { newRoom = createKillRoom(location); }
 
-        if (5 <= random) {
-            newRoom = createCombatRoom(location);
+            appendPath(newRoom);
+            
+            return newRoom;
+        } 
+        catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
         }
-        else if (10 <= random) {
-            newRoom = createPuzzleRoom(location);
-        }
-        else if (15 <= random) {
-            newRoom = createSceneRoom(location);
-        }
-        else { newRoom = createKillRoom(location); }
-
-        appendPath(newRoom);
+        return newRoom=null;
         
-        return newRoom;
     }
     public void nextRoom() {
         
