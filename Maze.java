@@ -25,24 +25,24 @@ public class Maze {
 
     public Room createPuzzleRoom(int location) {
         // create the room
-        Room r = new PuzzleRoom(rooms.get(location), location, descs.get(location-1));
+        Room r = new PuzzleRoom(rooms.get(location), location, descs.get(location));
         return r;
     }
     public Room createCombatRoom(int location) {
         // create the room
-        Room r = new CombatRoom(rooms.get(location), location, descs.get(location-1));
+        Room r = new CombatRoom(rooms.get(location), location, descs.get(location));
 
         return r;
     }
     public Room createKillRoom(int location) {
         // create the room
-        Room r = new KillRoom(rooms.get(location), location, descs.get(location-1));
+        Room r = new KillRoom(rooms.get(location), location, descs.get(location));
 
         return r;
     }
     public Room createSceneRoom(int location) {
         // create the room
-        Room r = new SceneRoom(rooms.get(location), location, descs.get(location-1));
+        Room r = new SceneRoom(rooms.get(location), location, descs.get(location));
 
         return r;
     }
@@ -77,6 +77,13 @@ public class Maze {
 
     public boolean roomExist(int index) {
         if (0 <= index && index <= (path.size() - 1)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean descExist(int index) {
+        if (0 <= index && index <= (descs.size() - 1)) {
             return true;
     }
     return false;

@@ -14,22 +14,26 @@ public class GameRunner {
     private static int roomCount;
     
     public static void main(String[] args) throws Exception {
+        // Use file system to create array lists of rooms and descriptions
         FileSys files = new FileSys(roomFile, descFile);
         rooms = files.getRooms();
         descs = files.getDescriptions();
         
-        // Get my files
+        // instantiate my classes with the array lists
         Maze m = new Maze(rooms, descs);
         Player p = new Player(m);
+        Input input = new Input(new Scanner(System.in));
 
+        // Set game active
         gameActive = true;
         roomCount = rooms.size();
 
-        Input input = new Input(new Scanner(System.in));
+        // Game start
         game(m, p, input);
         input.get().close();
 
     }
+
 
     private static void game(Maze m, Player p, Input i) {
         p.sendMsg("You wake up dazed and confused...");
@@ -51,13 +55,14 @@ public class GameRunner {
 
     }
 
+
     private static void gameLoop(Player p, Maze m, int direction, Input i) {
         String validIn = "[Left, Right, Back]";
         while (gameActive) {
             Room room = p.goToRoom(direction, m);
             p.sendMsg("You enter into " + room.name + "");
             p.sendMsg("You see " + room.getDescription());
-            // sendDebug(m, p, direction);
+            sendDebug(m, p, direction);
             // Checks if you have any rooms left from the list, if not then break out the game loop
             if (roomCount == (m.getPath().size() + 1)) {
                 break;
@@ -76,15 +81,6 @@ public class GameRunner {
     }
 
 
-
-
-
-
-    private static String correctInput(Player p, String validIn, Input s) {
-        p.sendMsg("Invalid input!");
-        return s.getTrueStr("Valid inputs include: " + validIn);
-    }
-
     private static void endGame(Maze m, Player p, Input i) {
             p.sendMsg("but it is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew");
             p.sendMsg("Do you open the lever and escape, or become part of the labrynth, forver.");
@@ -98,18 +94,34 @@ public class GameRunner {
             }
             p.sendMsg("Very well, I hope you are happy with your decision");
     }
+
+
+
+
+
+
+
+
+
+    private static String correctInput(Player p, String validIn, Input s) {
+        p.sendMsg("Invalid input!");
+        return s.getTrueStr("Valid inputs include: " + validIn);
+    }
+
+
     public static void sendDebug(Maze m, Player p, int offSet) {
         System.out.println("");
         System.out.print("Rooms List: ");
         for (String s: rooms) {
             System.out.print(s + ",");
         }
+        System.out.println(" L = " + rooms.size());
         System.out.print("Descriptions List: ");
         for (String s: descs) {
             System.out.print(s + ",");
         }
         System.out.println(" L = " + descs.size());
-
+        
         System.out.print("Path List: ");
         for (Room r: m.getPath()) {
             System.out.print(r.name + ",");
