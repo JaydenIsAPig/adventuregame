@@ -31,13 +31,13 @@ public class Input {
         return input;
     }
     public int transformDirection(String input) {
-        if (input.equals("right") || input.equals("left")) {
+        if (input.equalsIgnoreCase("right") || input.equalsIgnoreCase("left")) {
             return 1;
         }
-        else if (input.equals("back")) {
+        else if (input.equalsIgnoreCase("back")) {
             return -1;
         }
-        return 0;
+        else return 0;
 
     }
 

@@ -1,8 +1,5 @@
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class GameRunner {
@@ -31,7 +28,6 @@ public class GameRunner {
         // Game start
         game(m, p, input);
         input.get().close();
-
     }
 
 
@@ -42,7 +38,7 @@ public class GameRunner {
         // Transforms players input into 1 or -1 to move the player, or returns 0 otherwise
         int firstDirection = i.transformDirection(input);
 
-        // Intro just checks for the first direction
+        // Intro just checks for the first direction, cant be 0 (wouldn't go anywhere) or -1 (would be going backwards)
         while (firstDirection == 0|| firstDirection == -1) {
             String newDir = correctInput(p, "[ Left  Right ]", i);
             firstDirection = i.transformDirection(newDir);
@@ -60,9 +56,14 @@ public class GameRunner {
         String validIn = "[Left, Right, Back]";
         while (gameActive) {
             Room room = p.goToRoom(direction, m);
-            p.sendMsg("You enter into " + room.name + "");
-            p.sendMsg("You see " + room.getDescription());
-            sendDebug(m, p, direction);
+            if (direction == -1) {
+                p.sendMsg("You return to " + room.name + "");
+                p.sendMsg("You once again see " + room.getDescription());
+            }
+            else {
+                p.sendMsg("You enter into " + room.name + "");
+                p.sendMsg("You see " + room.getDescription());
+            }
             // Checks if you have any rooms left from the list, if not then break out the game loop
             if (roomCount == (m.getPath().size() + 1)) {
                 break;
@@ -72,14 +73,16 @@ public class GameRunner {
             while (direction < 1) {
                 if (direction == 0) {
                     direction = i.transformDirection(correctInput(p, validIn, i));
+                    continue;
                 }
                 else if (direction == -1 && p.getLocation() <= 0) {
-                    direction = i.transformDirection("You can't go back any further.");
+                    p.sendMsg("You can't go back any further!");
+                    direction = i.transformDirection(i.getTrueStr("Valid inputs include: [Left, Right]"));
                 }
+                else break;
             }
         }
     }
-
 
     private static void endGame(Maze m, Player p, Input i) {
             p.sendMsg("but it is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew");
@@ -94,7 +97,6 @@ public class GameRunner {
             }
             p.sendMsg("Very well, I hope you are happy with your decision");
     }
-
 
 
 

@@ -4,7 +4,7 @@ public class Player {
     private Maze m;
     // private Weapon tool;
     Player(Maze maze) {
-        position = 0;
+        position = -1;
         m = maze;
     }
     
@@ -17,7 +17,9 @@ public class Player {
         position += amnt;
         int futurePos = position;
         if (m.roomExist(futurePos)) {
-            return m.path.get(futurePos);
+            if (m.descExist(futurePos)) {
+                return m.path.get(futurePos);
+            }
         }
         return m.createRandomRoom(futurePos);
     }

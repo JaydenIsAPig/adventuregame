@@ -20,7 +20,6 @@ public class Maze {
     }
     public void appendPath(Room r) {
         path.add(r);
-        rooms.remove(r.name);
     }
 
     public Room createPuzzleRoom(int location) {
