@@ -7,19 +7,20 @@ import java.util.Scanner;
 public class FileSys {
     private Scanner roomScan;
     private Scanner descScan;
+    private Scanner puzzleScan;
 
-    public FileSys(File roomFile, File descFile) throws Exception {
+    public FileSys(File roomFile, File descFile, File puzzleFile) throws Exception {
         roomScan = new Scanner(roomFile);
         descScan = new Scanner(descFile);
+        puzzleScan = new Scanner(puzzleFile);
     }
+
     public List<String> getRooms() {
         int i = 0;
         List<String> allRooms = new ArrayList<String>();
-         //colin - set length like this might lead to problems if you have more than 5 rooms, since the following code block will keep appending until no more room files left, even if it overflows
          while (roomScan.hasNextLine()) {
             String s = roomScan.nextLine();
             allRooms.add(i, s);
-             // colin - i think this is why it keeps listing random numbers, see following code comment
             i++;
         }
         roomScan.close();
@@ -27,18 +28,32 @@ public class FileSys {
         
     }
 
+
     public List<String> getDescriptions() {
         int i = 0;
         List<String> allDescriptions = new ArrayList<String>();
-         //colin - set length like this might lead to problems if you have more than 5 rooms, since the following code block will keep appending until no more room files left, even if it overflows
          while (descScan.hasNextLine()) {
             String s = descScan.nextLine();
             allDescriptions.add(i, s);
-             // colin - i think this is why it keeps listing random numbers, see following code comment
             i++;
         }
         descScan.close();
         return shuffleList(allDescriptions);
+        
+    }
+    private List<String> getQuestions() {
+        int i = 0;
+        List<String> allQuestions = new ArrayList<String>();
+         while (puzzleScan.hasNextLine()) {
+            String s = descScan.nextLine().trim();
+
+            String[] parts = s.split(":", 2);
+
+            allQuestions.add(i, s);
+            i++;
+        }
+        descScan.close();
+        return shuffleList(allQuestions);
         
     }
     

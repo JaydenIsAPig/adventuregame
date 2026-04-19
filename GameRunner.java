@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class GameRunner {
     private static File roomFile = new File("rooms.txt");
     private static File descFile = new File ("descriptions.txt");
+    private static File puzzleFile = new File ("puzzles.txt");
     private static List<String> rooms;
     private static List<String> descs;
     private static boolean gameActive;
@@ -12,14 +13,15 @@ public class GameRunner {
     
     public static void main(String[] args) throws Exception {
         // Use file system to create array lists of rooms and descriptions
-        FileSys files = new FileSys(roomFile, descFile);
+        FileSys files = new FileSys(roomFile, descFile, puzzleFile);
         rooms = files.getRooms();
         descs = files.getDescriptions();
         
         // instantiate my classes with the array lists
-        Maze m = new Maze(rooms, descs);
-        Player p = new Player(m);
         Input input = new Input(new Scanner(System.in));
+        Maze m = new Maze(rooms, descs, input);
+        Player p = new Player(m);
+
 
         // Set game active
         gameActive = true;
@@ -63,6 +65,15 @@ public class GameRunner {
             else {
                 p.sendMsg("You enter into " + room.name + "");
                 p.sendMsg("You see " + room.getDescription());
+                if (room instanceof InteractableRoom interactableRoom) {
+                    String result;
+                    if (room instanceof PuzzleRoom) {
+                        result = interactableRoom.processInput("Question", "key");
+                    }
+                    else result = "";
+                    
+                    interactableRoom.result(result);
+                }
             }
             // Checks if you have any rooms left from the list, if not then break out the game loop
             if (roomCount == (m.getPath().size() + 1)) {

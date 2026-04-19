@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 abstract class Room{
     String name;
@@ -28,16 +25,16 @@ abstract class Room{
 }
     interface InteractableRoom {
         public static final String output = "";
-        public void processInput(String s1, String s2);
-        public String result(String s);
+        public String processInput(String s1, String s2);
+        public void result(String s);
     }
     class PuzzleRoom extends Room implements InteractableRoom {
-        PuzzleRoom(String nombre, int location, String desc, Input i, String s) {
+        PuzzleRoom(String nombre, int location, String desc, Input i) {
             super(nombre, location, desc, i);
             //TODO Auto-generated constructor stub
         }
         @Override
-        public void processInput(String question, String key) {
+        public String processInput(String question, String key) {
             
             // Creates a new puzzle that can be used whenever
             boolean correct = false;
@@ -48,35 +45,42 @@ abstract class Room{
                 }
                 else correct = true;
             }
+            return "Correct";
+            
         }
         @Override
-        public String result(String s) {
-            // TODO Auto-generated method stub
-            return null;
+        public void result(String s) {
+            System.out.println(s);
         }
 
         
     }
     class CombatRoom extends Room implements InteractableRoom {
-
-        CombatRoom(String nombre, int location, String desc) {
-            super(nombre, location, desc);
+        CombatRoom(String nombre, int location, String desc, Input i) {
+            super(nombre, location, desc, i);
             //TODO Auto-generated constructor stub
         }
-        
+        @Override
+        public String processInput(String s1, String s2) {
+            return null;
+        }
+        @Override
+        public void result(String s) {
+
+        }   
     }
     class KillRoom extends Room {
 
-        KillRoom(String nombre, int location, String desc) {
-            super(nombre, location, desc);
+        KillRoom(String nombre, int location, String desc, Input i) {
+            super(nombre, location, desc, i);
             //TODO Auto-generated constructor stub
         }
         
     }
     class SceneRoom extends Room {
 
-        SceneRoom(String nombre, int location, String desc) {
-            super(nombre, location, desc);
+        SceneRoom(String nombre, int location, String desc, Input i) {
+            super(nombre, location, desc, i);
             //TODO Auto-generated constructor stub
         }
         

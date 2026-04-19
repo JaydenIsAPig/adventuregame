@@ -5,12 +5,14 @@ public class Maze {
     List<String> rooms;
     List<String> descs;
     List<Room> path;
+    Input in;
 
 
-    Maze(List<String> roomsList, List<String> descriptionsList) {
+    Maze(List<String> roomsList, List<String> descriptionsList, Input i) {
         rooms = roomsList;
         descs = descriptionsList;
         path = new ArrayList<Room>();
+        in = i;
     }
     public List<String> getRooms() {
         return rooms;
@@ -24,24 +26,24 @@ public class Maze {
 
     public Room createPuzzleRoom(int location) {
         // create the room
-        Room r = new PuzzleRoom(rooms.get(location), location, descs.get(location));
+        Room r = new PuzzleRoom(rooms.get(location), location, descs.get(location), in);
         return r;
     }
     public Room createCombatRoom(int location) {
         // create the room
-        Room r = new CombatRoom(rooms.get(location), location, descs.get(location));
+        Room r = new CombatRoom(rooms.get(location), location, descs.get(location), in);
 
         return r;
     }
     public Room createKillRoom(int location) {
         // create the room
-        Room r = new KillRoom(rooms.get(location), location, descs.get(location));
+        Room r = new KillRoom(rooms.get(location), location, descs.get(location), in);
 
         return r;
     }
     public Room createSceneRoom(int location) {
         // create the room
-        Room r = new SceneRoom(rooms.get(location), location, descs.get(location));
+        Room r = new SceneRoom(rooms.get(location), location, descs.get(location), in);
 
         return r;
     }
@@ -55,13 +57,13 @@ public class Maze {
         // 5/16 chance that its combat, puzzle, or scene room
         // 1/16 chance that it is a kill room where the player must react quick to save their life
         try {
-            if (5 <= random) {
+            if (15 <= random) {
                 newRoom = createCombatRoom(location);
             }
             else if (10 <= random) {
                 newRoom = createPuzzleRoom(location);
             }
-            else if (15 <= random) {
+            else if (5 <= random) {
                 newRoom = createSceneRoom(location);
             }
             else { newRoom = createKillRoom(location); }
@@ -74,12 +76,10 @@ public class Maze {
             System.out.println(e.getMessage());
         }
         return newRoom=null;
-        
     }
     public void nextRoom() {
         
     }
-
     public boolean roomExist(int index) {
         if (0 <= index && index <= (path.size() - 1)) {
             return true;
