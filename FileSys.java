@@ -10,11 +10,13 @@ public class FileSys {
     private Scanner roomScan;
     private Scanner descScan;
     private Scanner puzzleScan;
+    private Map<String, String> puzzles;
 
     public FileSys(File roomFile, File descFile, File puzzleFile) throws Exception {
         roomScan = new Scanner(roomFile);
         descScan = new Scanner(descFile);
         puzzleScan = new Scanner(puzzleFile);
+        puzzles = new HashMap<>();
     }
 
     public List<String> getRooms() {
@@ -29,7 +31,6 @@ public class FileSys {
         return shuffleList(allRooms);
         
     }
-
 
     public List<String> getDescriptions() {
         int i = 0;
@@ -50,38 +51,25 @@ public class FileSys {
          while (puzzleScan.hasNextLine()) {
             String s = puzzleScan.nextLine().trim();
             String[] parts = s.split(":", 2);
-            
-            allQuestions.add(i, s);
+            if (parts.length == 2) {
+                allQuestions.add(i, parts[0]);
+                putPuzzles(parts);
+            }
             i++;
         }
         puzzleScan.close();
         return shuffleList(allQuestions);
-
-        // [0, line0]
-        // [1, line1]
-        // [2, line2]
-
-        // [0, line2]
-        // [1, line0]
-        // [2, line1]
     }
 
-    public Map<String, String> getPuzzles(List<String> shuffledList) {
-        Map<String,String> puzzles = new HashMap<>();
-         for (String line: shuffledList) {
-            String s = line;
-            String[] parts = s.split(":", 2);
-            // line -> Question:Key
-            // Hash map -> {Question, Key}
-            if (parts.length == 2) {
-                puzzles.put(parts[0], parts[1]);
-            }
-        }
+    private void putPuzzles(String[] args) {
+            puzzles.put(args[0], args[1]);
+    }
+
+    public Map<String, String> getPuzzles() {
         return puzzles;
-        
     }
     
-    public static List<String> shuffleList(List<String> list) {
+    private static List<String> shuffleList(List<String> list) {
         List<String> array = list;
         Collections.shuffle(array);
         return array;

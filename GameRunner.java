@@ -15,16 +15,13 @@ public class GameRunner {
     private static int roomCount;
     
     public static void main(String[] args) throws Exception {
-        // Use file system to create array lists of rooms and descriptions
+        // Use file system to create array lists of rooms and descriptions, puzzles, and questions
         FileSys files = new FileSys(roomFile, descFile, puzzleFile);
         rooms = files.getRooms();
         descs = files.getDescriptions();
         questions = files.getQuestions();
-        puzzles = files.getPuzzles(questions);
-        // for (Map.Entry<String, String> puzzle: puzzles.entrySet()) {
-        //     String s = puzzle.getKey() + ":" + puzzle.getValue();
-        //     System.out.println(s);
-        // }
+        puzzles = files.getPuzzles();
+
         // instantiate my classes with the array lists
         Input input = new Input(new Scanner(System.in));
         Maze m = new Maze(rooms, descs, input);
@@ -44,7 +41,7 @@ public class GameRunner {
     private static void game(Maze m, Player p, Input i) {
         p.sendMsg("You wake up dazed and confused...");
         p.sendMsg("You are inside what appears to be a labrynth of sorts, expanding in both directions");
-        String input = i.getTrueStr("Type in a direction to go: Left or Right");
+        String input = i.getTrueStr("Type in a direction to go: Left or Right:   ");
         // Transforms players input into 1 or -1 to move the player, or returns 0 otherwise
         int firstDirection = i.transformDirection(input);
 
@@ -63,14 +60,15 @@ public class GameRunner {
         String validIn = "[Left, Right, Back]";
         int puzzleCount = puzzles.size();
         while (gameActive) {
+            System.out.println("");
             Room room = p.goToRoom(direction, m);
             if (direction == -1) {
                 p.sendMsg("You return to " + room.name + "");
                 p.sendMsg("You once again see " + room.getDescription());
             }
             else {
-                p.sendMsg("You enter into " + room.name + "");
-                p.sendMsg("You see " + room.getDescription());
+                p.sendMsg("<-- You enter into " + room.name + " -->");
+                p.sendMsg(" * You see " + room.getDescription() + " * ");
                 if (room instanceof InteractableRoom interactableRoom) {
                     String result;
                     if (room instanceof PuzzleRoom) {
@@ -85,11 +83,13 @@ public class GameRunner {
                     
                     interactableRoom.result(result);
                 }
+                System.out.println("");
             }
             // Checks if you have any rooms left from the list, if not then break out the game loop
             if (roomCount == (m.getPath().size() + 1)) {
                 break;
             }
+
             String input = i.getTrueStr("Where will you go next?  ");
             direction = i.transformDirection(input);
             while (direction < 1) {

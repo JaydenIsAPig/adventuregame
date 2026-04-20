@@ -20,7 +20,7 @@ public class Input {
         return input.nextLine();
     }
     public String getTrueStr(String s) {
-        System.out.println(s);
+        System.out.print(s);
         return input.nextLine().toLowerCase();
     }
     public int getInt(String s) {
@@ -31,10 +31,11 @@ public class Input {
         return input;
     }
     public int transformDirection(String input) {
-        if (input.equalsIgnoreCase("right") || input.equalsIgnoreCase("left")) {
+        input = input.toLowerCase();
+        if (input.contains("right") || input.contains("left")) {
             return 1;
         }
-        else if (input.equalsIgnoreCase("back")) {
+        else if (input.contains("back")) {
             return -1;
         }
         else return 0;
