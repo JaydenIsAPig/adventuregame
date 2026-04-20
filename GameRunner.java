@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class GameRunner {
@@ -8,6 +9,8 @@ public class GameRunner {
     private static File puzzleFile = new File ("puzzles.txt");
     private static List<String> rooms;
     private static List<String> descs;
+    private static List<String> questions;
+    private static Map<String,String> puzzles;
     private static boolean gameActive;
     private static int roomCount;
     
@@ -16,7 +19,12 @@ public class GameRunner {
         FileSys files = new FileSys(roomFile, descFile, puzzleFile);
         rooms = files.getRooms();
         descs = files.getDescriptions();
-        
+        questions = files.getQuestions();
+        puzzles = files.getPuzzles(questions);
+        // for (Map.Entry<String, String> puzzle: puzzles.entrySet()) {
+        //     String s = puzzle.getKey() + ":" + puzzle.getValue();
+        //     System.out.println(s);
+        // }
         // instantiate my classes with the array lists
         Input input = new Input(new Scanner(System.in));
         Maze m = new Maze(rooms, descs, input);
@@ -45,9 +53,6 @@ public class GameRunner {
             String newDir = correctInput(p, "[ Left  Right ]", i);
             firstDirection = i.transformDirection(newDir);
         }
-        // p = 1
-        // p.goTo(firstDirection, m);
-        // runLoop(m, p, i);
         gameLoop(p, m, firstDirection, i);
         endGame(m, p, i);
 
@@ -56,6 +61,7 @@ public class GameRunner {
 
     private static void gameLoop(Player p, Maze m, int direction, Input i) {
         String validIn = "[Left, Right, Back]";
+        int puzzleCount = puzzles.size();
         while (gameActive) {
             Room room = p.goToRoom(direction, m);
             if (direction == -1) {
@@ -68,7 +74,12 @@ public class GameRunner {
                 if (room instanceof InteractableRoom interactableRoom) {
                     String result;
                     if (room instanceof PuzzleRoom) {
-                        result = interactableRoom.processInput("Question", "key");
+                        puzzleCount -= 1;
+                        if (puzzleCount >= 0) {
+                        String question = questions.get(puzzleCount);
+                        result = interactableRoom.processInput(question, puzzles.get(question));
+                        }
+                        else result = "Im supposed to ask you a question but I forgot it, you may pass";
                     }
                     else result = "";
                     

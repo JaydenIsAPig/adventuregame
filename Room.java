@@ -40,7 +40,7 @@ abstract class Room{
             boolean correct = false;
             String answer = in.getStr("? " + question + " ?");
             while (!correct) {
-                if (!(answer.toLowerCase().equals(key))) {
+                if (!(answer.toLowerCase().contains(key))) {
                 answer = in.getStr("Incorrect! Try again"); 
                 }
                 else correct = true;
