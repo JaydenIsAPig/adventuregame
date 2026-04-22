@@ -10,13 +10,16 @@ public class FileSys {
     private Scanner roomScan;
     private Scanner descScan;
     private Scanner puzzleScan;
+    private Scanner mobScan;
     private Map<String, String> puzzles;
 
-    public FileSys(File roomFile, File descFile, File puzzleFile) throws Exception {
+    public FileSys(File roomFile, File descFile, File puzzleFile, File mobFile) throws Exception {
         roomScan = new Scanner(roomFile);
         descScan = new Scanner(descFile);
         puzzleScan = new Scanner(puzzleFile);
         puzzles = new HashMap<>();
+        mobScan = new Scanner(mobFile);
+
     }
 
     public List<String> getRooms() {
@@ -29,6 +32,18 @@ public class FileSys {
         }
         roomScan.close();
         return shuffleList(allRooms);
+        
+    }
+    public List<String> getMobs() {
+        int i = 0;
+        List<String> allMobs = new ArrayList<>();
+         while (mobScan.hasNextLine()) {
+            String s = mobScan.nextLine();
+            allMobs.add(i, s);
+            i++;
+        }
+        mobScan.close();
+        return shuffleList(allMobs);
         
     }
 

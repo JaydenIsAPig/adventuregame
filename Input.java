@@ -16,7 +16,7 @@ public class Input {
         return input.nextInt();
     }
     public String getStr(String s) {
-        System.out.println(s);
+        System.out.print(s);
         return input.nextLine();
     }
     public String getTrueStr(String s) {
@@ -24,7 +24,7 @@ public class Input {
         return input.nextLine().toLowerCase();
     }
     public int getInt(String s) {
-        System.out.println(s);
+        System.out.print(s);
         return input.nextInt();
     }
     public Scanner get() {
@@ -40,6 +40,10 @@ public class Input {
         }
         else return 0;
 
+    }
+    public String correctInput(String validIn) {
+        System.out.println("Invalid input!");
+        return this.getTrueStr("Valid inputs include: " + validIn + "\n");
     }
 
 

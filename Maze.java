@@ -35,12 +35,12 @@ public class Maze {
 
         return r;
     }
-    public Room createKillRoom(int location) {
-        // create the room
-        Room r = new KillRoom(rooms.get(location), location, descs.get(location), in);
+    // public Room createKillRoom(int location) {
+    //     // create the room
+    //     Room r = new KillRoom(rooms.get(location), location, descs.get(location), in);
 
-        return r;
-    }
+    //     return r;
+    // }
     public Room createSceneRoom(int location) {
         // create the room
         Room r = new SceneRoom(rooms.get(location), location, descs.get(location), in);
@@ -63,10 +63,10 @@ public class Maze {
             else if (10 <= random) {
                 newRoom = createPuzzleRoom(location);
             }
-            else if (5 <= random) {
+            else {
                 newRoom = createSceneRoom(location);
             }
-            else { newRoom = createKillRoom(location); }
+            // else { newRoom = createKillRoom(location); }
 
             appendPath(newRoom);
             

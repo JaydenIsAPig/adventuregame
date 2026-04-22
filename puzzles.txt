@@ -1,11 +1,11 @@
-What can you drive that has wheels and also flies?:garbage truck
-What has a neck but no head?: a bottle
-What has one eye but cannot see?: a needle
-What has hands but cannot clap?: a clock
-What gets wetter the more it dries?: a towel
-What has a thumb and four fingers but no flesh?: a glove
-What belongs to you but others use it more?: your name
-What has many teeth but cannot bite?: a comb
-What starts with T, ends with T, and has T in it?: a teapot
-What has many keys but cannot open a single lock?: a piano
-What goes up but never comes back down?: your age
+What can you drive that has wheels and also flies:garbage truck
+What has a neck but no head:bottle
+What has one eye but cannot see:needle
+What has hands but cannot clap:clock
+What gets wetter the more it dries:towel
+What has a thumb and four fingers but no flesh:glove
+What belongs to you but others use it more:name
+What has many teeth but cannot bite:comb
+What starts with T, ends with T, and has T in it:teapot
+What has many keys but cannot open a single lock:piano
+What goes up but never comes back down:your age
