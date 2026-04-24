@@ -140,10 +140,6 @@ public class GameRunner {
                 p.sendMsg("Bye bye.");
                 break;
             }
-            // Checks if you have any rooms left from the list, if not then break out the game loop
-            if (roomCount == (m.getPath().size() + 1)) {
-                endGame(m, p, i);
-            }
 
             String input = i.getTrueStr("Where will you go next?  ");
             direction = i.transformDirection(input);
@@ -158,12 +154,23 @@ public class GameRunner {
                 }
                 else break;
             }
+            // Checks if you have any rooms left from the list, if not then break out the game loop
+            if (roomCount == (m.getPath().size() + 1)) {
+                endGame(m, p, i);
+                break;
+                
+            }
         }
     }
 
     private static void endGame(Maze m, Player p, Input i) {
-            p.sendMsg("but it is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("...You arrive in the strangest room yet...");
+            System.out.println("");
+            p.sendMsg("- It is empty except for a latch which keeps closed a door - behind it shines a glimmer of the sun you once knew -");
             p.sendMsg("Do you open the lever and escape, or become part of the labrynth, forver.");
+            System.out.println("");
             p.sendMsg("Choose the Blue Pill: Freedom from the labrynth - faith in mandkind");
             p.sendMsg("Choose the Red Pill: Freedom from mankind - faith in the labrynth");
             String answer = i.getTrueStr("Which pill do you take, blue or red?");
